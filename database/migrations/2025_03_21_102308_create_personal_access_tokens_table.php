@@ -9,9 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'auth';
     public function up(): void
     {
-        Schema::create('personal_access_tokens', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
             $table->morphs('tokenable');
             $table->string('name');

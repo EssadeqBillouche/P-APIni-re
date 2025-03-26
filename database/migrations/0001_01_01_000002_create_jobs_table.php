@@ -9,9 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+    protected $connection = 'auth';
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
             $table->longText('payload');
