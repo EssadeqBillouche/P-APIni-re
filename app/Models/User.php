@@ -1,31 +1,35 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Required for factory support
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory; // Include this trait
+    use Notifiable;
+
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role',
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    // Required by JWTSubject
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
     public function getJWTIdentifier()
     {
-        return $this->getKey(); // Returns the user's primary key (e.g., ID)
+        return $this->getKey();
     }
 
-    // Required by JWTSubject
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
-        return []; // Add custom claims here if needed (e.g., ['role' => 'admin'])
+        return [
+            'role' => $this->role,
+        ];
     }
 }

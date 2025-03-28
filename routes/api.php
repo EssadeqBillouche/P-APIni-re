@@ -1,8 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\AuthJwtController;
+
+Route::prefix('Auth')->group(function (){
+    Route::post('/register',[AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+});
 
 
-Route::post('/register', [AuthJwtController::class, 'register']);
+
